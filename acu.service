@@ -1,0 +1,10 @@
+[Unit]
+Description=AWS Credentials Updater
+
+[Service]
+ExecStart=%h/.local/bin/acu
+Restart=on-failure
+NoNewPrivileges=true
+
+[Install]
+WantedBy=default.target
