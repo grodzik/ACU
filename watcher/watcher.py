@@ -45,7 +45,7 @@ def main():
 
 def write_to_file(new_credentials: str, old_credentials: str, file_content: str):
     with open(credentials_file.as_posix(), "w") as f:
-        f.write(file_content.replace(old_credentials[0], new_credentials))
+        f.write(file_content.replace(old_credentials, new_credentials))
 
 
 def append_to_file(credentials: str):
