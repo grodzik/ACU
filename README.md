@@ -1,7 +1,7 @@
 # AWS Credentials Updater
 
-Automatically update your `~/.aws/credentials` file after copying credentials
-from AWS console.
+Automatically replace or add new credentials in your `~/.aws/credentials` file 
+after copying them to clipboard from AWS console.
 
 **Tested only on Ubuntu 18.04**.
 
