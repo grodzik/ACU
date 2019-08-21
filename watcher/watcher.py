@@ -17,30 +17,32 @@ def main():
     while True:
         tmp_value = pyperclip.paste()
         if tmp_value != recent_value:
+            update_credentials(tmp_value)
             recent_value = tmp_value
-            new_credentials_match = re.fullmatch(
-                re.compile(r"(?P<account>\[\d{12}_\w+\])\n%s" % schema), recent_value
-            )
-            if new_credentials_match:
-                try:
-                    with open(credentials_file.as_posix(), "r") as f:
-                        file_content = f.read()
-                except FileNotFoundError:
-                    append_to_file(recent_value)
-                    continue
-                old_credentials_match = re.search(
-                    re.compile(
-                        r"(%s)\n%s"
-                        % (re.escape(new_credentials_match["account"]), schema)
-                    ),
-                    file_content,
-                )
-                if old_credentials_match:
-                    write_to_file(recent_value, old_credentials_match[0], file_content)
-                else:
-                    append_to_file(recent_value)
-
         time.sleep(0.5)
+
+
+def update_credentials(new_credentials: str):
+    new_credentials_match = re.fullmatch(
+        re.compile(r"(?P<account>\[\d{12}_\w+\])\n%s" % schema), new_credentials
+    )
+    if new_credentials_match:
+        try:
+            with open(credentials_file.as_posix(), "r") as f:
+                file_content = f.read()
+        except FileNotFoundError:
+            append_to_file(new_credentials)
+            return
+        old_credentials_match = re.search(
+            re.compile(
+                r"(%s)\n%s" % (re.escape(new_credentials_match["account"]), schema)
+            ),
+            file_content,
+        )
+        if old_credentials_match:
+            write_to_file(new_credentials, old_credentials_match[0], file_content)
+        else:
+            append_to_file(new_credentials)
 
 
 def write_to_file(new_credentials: str, old_credentials: str, file_content: str):
