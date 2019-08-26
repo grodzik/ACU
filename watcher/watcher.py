@@ -58,10 +58,18 @@ def write_to_file(
 ):
     with open(credentials_file.as_posix(), "w") as f:
         f.write(file_content.replace(old_credentials, new_credentials))
-        subprocess.run(["notify-send", "ACU", "Existing credentials updated."])
+        display_notification("Existing credentials updated.")
 
 
 def append_to_file(credentials_file: Path, credentials: str):
     with open(credentials_file.as_posix(), "a") as f:
         f.write(f"\n{credentials}\n")
-        subprocess.run(["notify-send", "ACU", "New credentials added."])
+        display_notification("New credentials added.")
+
+
+def display_notification(message: str):
+    try:
+        subprocess.run(["notify-send", "ACU", message])
+    except FileNotFoundError:
+        # notify-send may not be installed
+        pass
