@@ -4,6 +4,7 @@ Description=AWS Credentials Updater
 [Service]
 ExecStart=%h/.local/bin/acu
 Restart=on-failure
+RestartSec=3s
 NoNewPrivileges=true
 
 [Install]
