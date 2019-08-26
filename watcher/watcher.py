@@ -1,4 +1,5 @@
 import re
+import subprocess
 import time
 from pathlib import Path
 
@@ -57,8 +58,10 @@ def write_to_file(
 ):
     with open(credentials_file.as_posix(), "w") as f:
         f.write(file_content.replace(old_credentials, new_credentials))
+        subprocess.run(["notify-send", "ACU", "Existing credentials updated."])
 
 
 def append_to_file(credentials_file: Path, credentials: str):
     with open(credentials_file.as_posix(), "a") as f:
         f.write(f"\n{credentials}\n")
+        subprocess.run(["notify-send", "ACU", "New credentials added."])
